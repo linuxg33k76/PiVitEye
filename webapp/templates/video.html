@@ -1,0 +1,6 @@
+<ul>
+	<h2> Videos in {{ directory }}</h2></br>
+	{% for file in files: %}
+		<li><a href="/static/video/{{ file }}">{{ file }}</a></li>
+	{% endfor %}
+</ul>
