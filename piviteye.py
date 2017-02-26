@@ -128,10 +128,10 @@ def main():
 
 if __name__ == "__main__":
 
-    # GPIO Object Instances
-    closed_led = LED(4)         #Red LED on GPIO port 4
-    open_led = LED(17)          #Green LED on GPIO port 17
-    button = Button(23)         #Button on GPIO port 23
+    # # GPIO Object Instances
+    # closed_led = LED(4)         #Red LED on GPIO port 4
+    # open_led = LED(17)          #Green LED on GPIO port 17
+    # button = Button(23)         #Button on GPIO port 23
 
     # Load Twilio Configuration VALUES
     with open ('/etc/piviteye/twilio.conf') as data_file:
@@ -146,16 +146,16 @@ if __name__ == "__main__":
     # New piviteye database instance
     db = piviteyedb.PyVitEyeDB()
 
-    # LED Test
-    open_led.on()
-    closed_led.on()
-    sleep(2)                #Sleep 2 seconds
-    open_led.off()
-    closed_led.off()
+    # # LED Test
+    # open_led.on()
+    # closed_led.on()
+    # sleep(2)                #Sleep 2 seconds
+    # open_led.off()
+    # closed_led.off()
 
     # Initialization SMS message
     logger.log_it('Starting Program...')
-    tw.send_message('Pi_vit_eye Program Initalized.')
+    tw.send_message('Piviteye Program Initalized.')
     start_time = datetime.datetime.now()
     #Call Main()
     main()
