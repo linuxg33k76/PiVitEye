@@ -1,0 +1,6 @@
+<ul>
+	<h2> Packet Captures in {{ directory }}</h2></br>
+	{% for file in files: %}
+		<li><a href="/static/pcap/{{ file }}">{{ file }}</a></li>
+	{% endfor %}
+</ul>

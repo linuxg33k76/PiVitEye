@@ -66,7 +66,11 @@ def command_check():
                     else:
                         pass
                     if command[5] != "":
-                        subprocess.call(command[5],shell=True)
+                        cmd_response = subprocess.call(command[5],shell=True)
+                        if cmd_response == 0:
+                            tw.send_message('Command Completed Successfully!')
+                        else:
+                            tw.send_message('Command failed... :(')
                     else:
                         pass
                 else:

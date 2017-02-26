@@ -9,21 +9,26 @@ app = Flask(__name__)
 @app.route('/')
 def index():
 	return render_template('index.html')
-		
+
 @app.route('/log')
 def log():
 	return open('/mnt/usb/log/piviteye.log', 'r').read()
-			
+
 @app.route('/videos')
 def video():
 	basedir = '/mnt/usb/video/'
 	files = os.listdir(basedir)
 	return render_template('video.html',files=files,directory=basedir)
 
+@app.route('/pcap')
+def pcap():
+	basedir = '/mnt/usb/pcap/'
+	files = os.listdir(basedir)
+	return render_template('pcap.html',files=files,directory=basedir)
+
 @app.route('/stream')
 def stream():
-	return render_template('livefeed.html')	
-	
+	return render_template('livefeed.html')
+
 if __name__ == '__main__':
 	app.run(debug=True, host='0.0.0.0')
-
