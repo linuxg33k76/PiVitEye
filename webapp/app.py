@@ -108,10 +108,11 @@ def system_update():
 
 
 @app.route('/system/uptime', methods=['POST'])
-def system_uptime():
-    cmd = os.popen('sudo service motion stop')
+def system_sysuptime():
+    cmd = os.popen('uptime')
     msg = cmd.read()
     cmd.close()
+    msg = msg.strip('\r\n')
     return render_template('output.html', msg=msg)
 
 
