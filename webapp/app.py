@@ -3,6 +3,7 @@
 
 from flask import Flask, render_template
 import os
+import datetime
 
 
 app = Flask(__name__)
@@ -17,22 +18,37 @@ def index():
 def log():
     basedir = '/mnt/usb/log/'
     files = os.listdir(basedir)
+    mdate = []
+    for file in files:
+        mtime = os.path.getmtime(basedir+file)
+        last_modified_date = datetime.datetime.fromtimestamp(mtime)
+        mdate.append(last_modified_date)
 
-    return render_template('log.html', files=files, directory=basedir)
+    return render_template('log.html', files=files, directory=basedir, modified=modified)
 
 
 @app.route('/videos')
 def video():
     basedir = '/mnt/usb/video/'
     files = os.listdir(basedir)
-    return render_template('video.html', files=files, directory=basedir)
+    mdate = []
+    for file in files:
+        mtime = os.path.getmtime(basedir+file)
+        last_modified_date = datetime.datetime.fromtimestamp(mtime)
+        mdate.append(last_modified_date)
+    return render_template('video.html', files=files, directory=basedir, modified=mdate)
 
 
 @app.route('/pcap')
 def pcap():
     basedir = '/mnt/usb/pcap/'
     files = os.listdir(basedir)
-    return render_template('pcap.html', files=files, directory=basedir)
+    mdate = []
+    for file in files:
+        mtime = os.path.getmtime(basedir+file)
+        last_modified_date = datetime.datetime.fromtimestamp(mtime)
+        mdate.append(last_modified_date)
+    return render_template('pcap.html', files=files, directory=basedir, modified=mdate)
 
 
 @app.route('/stream')

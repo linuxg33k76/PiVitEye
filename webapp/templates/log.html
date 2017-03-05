@@ -20,9 +20,36 @@
   <body>
 		<ul>
 			<h2> Piviteye Logs in {{ directory }}</h2></br>
-			{% for file in files: %}
-				<li><a href="/static/log/{{ file }}">{{ file }}</a></li>
-			{% endfor %}
+      <div style="float: left; width: 50%;">
+        <ul>
+          {% for file in files: %}
+    				<li><a href="/static/log/{{ file }}">{{ file }}</a></li>
+    			{% endfor %}
+        </ul>
+      </div>
+      <div style="float: right; width: 50%;">
+        <ul>
+          {% for date in modified: %}
+            <li> last modified on {{ date }}</li>
+          {% endfor %}
+
+
+        </ul>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		</ul>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
