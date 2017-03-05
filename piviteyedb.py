@@ -44,7 +44,7 @@ class PyVitEyeDB(object):
 
         # Add Data to Table COMMANDS
         conn.execute('''INSERT INTO COMMANDS (ID,CMD,LOGMSG,SMSMSG,PICMD,SUBCALL) \
-                     VALUES (1,'list','Sending the Available Commands List.','Executed - list command. Valid Commands: close, open, restart, webcam, picam, video, halt, shutdown, disarm, arm, mute, unmute, volmax, volmin, volmid, voltest, status, uptime, update, tshark and list.','','');''')
+                     VALUES (1,'list','Sending the Available Commands List.','Executed - list command. Valid Commands: close, open, restart, record, picam, pivideo, halt, shutdown, disarm, arm, mute, unmute, volmax, volmin, volmid, voltest, status, uptime, update, tshark and list.','','');''')
 
         conn.execute('''INSERT INTO COMMANDS (ID,CMD,LOGMSG,SMSMSG,PICMD,SUBCALL) \
                      VALUES (2, 'close','Closing Garage Door','Executed - close command.','garage_door','');''')
@@ -53,7 +53,7 @@ class PyVitEyeDB(object):
                      VALUES (3, 'open','Opening Garage Door','Executed - open command.','garage_door','');''')
 
         conn.execute('''INSERT INTO COMMANDS (ID,CMD,LOGMSG,SMSMSG,PICMD,SUBCALL) \
-                     VALUES (4, 'webcam','Taking a Picture with Webcam...','Executed - webcam command.','','SupportFiles/webcam.sh');''')
+                     VALUES (4, 'record','Taking a 60 second Video with Webcam...','Executed - webcam command.','','SupportFiles/webcam.sh');''')
 
         conn.execute('''INSERT INTO COMMANDS (ID,CMD,LOGMSG,SMSMSG,PICMD,SUBCALL) \
                      VALUES (5,'restart','Restarting System Program...','Executing - restart command...','','sudo shutdown -r now');''')
@@ -62,7 +62,7 @@ class PyVitEyeDB(object):
                      VALUES (6,'picam','Taking a Picture with Pi Camera...','Executed - picam command.','picam','');''')
 
         conn.execute('''INSERT INTO COMMANDS (ID,CMD,LOGMSG,SMSMSG,PICMD,SUBCALL) \
-                     VALUES (7,'video','Taking a Video with Pi Camera...','Executed - 60 second video command.','pivideo','');''')
+                     VALUES (7,'pivideo','Taking a Video with Pi Camera...','Executed - 60 second video command.','pivideo','');''')
 
         conn.execute('''INSERT INTO COMMANDS (ID,CMD,LOGMSG,SMSMSG,PICMD,SUBCALL) \
                      VALUES (8,'shutdown','User Initiated Shutting Down of the System.','Executing - shutdown command.','','sudo shutdown -h now');''')

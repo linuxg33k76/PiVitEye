@@ -117,7 +117,7 @@ def system_uptime():
 
 @app.route('/system/restart', methods=['POST'])
 def system_restart():
-    cmd = os.popen('sudo shutdown -r now')
+    cmd = os.popen('sudo shutdown -r +1')
     cmd.read()
     cmd.close()
     msg = 'User initiated Restart of System in progress...'
@@ -126,7 +126,7 @@ def system_restart():
 
 @app.route('/system/shutdown', methods=['POST'])
 def system_shutdown():
-    cmd = os.popen('sudo shutdown -h now')
+    cmd = os.popen('sudo shutdown -h +1')
     cmd.read()
     cmd.close()
     msg = 'User initiated Shutdown of System in progress...'
