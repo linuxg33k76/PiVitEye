@@ -1,29 +1,62 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Piviteye Home Monitor</title>
+    <head>
+        <title></title>
+        <link rel="stylesheet" href="static/styles/css/uikit.min.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="static/styles/js/uikit.min.js"></script>
+        <script src="static/styles/js/uikit-icons.min.js"></script>
+        <script type="text/javascript">
+        // function formroute(id){
+        //     var button = id;
+        //     if (button === '1'){
+        //       document.getElementById('pcapform').action = '/pcap/start';
+        //     } else if {
+        //       var response = confirm("Are you sure you wish to continue?");
+        //       if (response == true) {
+        //         document.getElementById('pcapform').action = '/pcap/clear';
+        //       } else {
+        //         document.getElementById('pcapform').action = '/';
+        //         document.getElementById('pcapform').method = '';
+        //         };
+        //       };
+        //     }
 
-    <!-- Bootstrap -->
-    <link href="static/styles/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    <h1>Main Menu</h1>
+        function formroute(id){
+          var buttonId = id;
+          switch (buttonId){
+            case '0':
+              alert('No Button Pressed!');
+              break;
+            case '1':
+              document.getElementById('pcapform').action = '/pcap/start';
+              break;
+            case '2':
+              var response = confirm("Are you sure you wish to continue?");
+              if (response == true) {
+                      document.getElementById('pcapform').action = '/pcap/clear';
+              } else {
+                      document.getElementById('pcapform').action = '/';
+                      document.getElementById('pcapform').method = '';
+              };
+              break;
+            case '3':
+              document.getElementById('pcapform').action = '/motion/start';
+              break;
+            case '4':
+              document.getElementById('pcapform').action = '/motion/stop';
+              break;
+          }
+        }
+        </script>
+    </head>
+    <h1>Piviteye Dashboard</h1>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="static/styles/js/bootstrap.min.js"></script>
+    <script src="static/styles/js/uikit.min.js"></script>
 	</head>
 	<body>
 		<p> PiVitEye Web Interface</p>
@@ -31,10 +64,17 @@
 			<li><a href="/log"> Log File </a></li>
 			<li><a href="/pcap"> Packet Captures </a></li>
 			<li><a href="/stream"> Live Stream (requires user:pass) </a></li>
-
-		<div>
-
-		</div>
-
+    <p>
+  		<div>
+        <div>
+          <form id ="pcapform" action="" method="post">
+              <input id="1" class="uk-button uk-button-primary uk-button-large " type="submit" value="30 Second Packet Capture" onclick="formroute(this.id);" />
+              <input id="2" class="uk-button uk-button-danger uk-button-large " type="submit" value="Clear Captures" onclick="formroute(this.id);"/>
+              <input id="3" class="uk-button uk-button-primary uk-button-large " type="submit" value="Start Motion Service" onclick="formroute(this.id);" />
+              <input id="4" class="uk-button uk-button-danger uk-button-large " type="submit" value="Stop Motion Service" onclick="formroute(this.id);"/>
+          </form>
+        </div>
+  		</div>
+    </p>
 	</body>
 </html>
