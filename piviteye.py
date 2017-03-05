@@ -51,12 +51,12 @@ def command_check():
             #check message status and pull recieved messages only
             if messages[0].status == 'received' and msg_num != old_msg_id:
 
-                #store the new message sid to Global Variable old_msg, so we don't reissue this command
-                #old_msg = msg_num
-                #log message in logfile
-                logger.log_it('Command was --> '+ msg)
+                # store the new message sid to Global Variable old_msg, so we don't reissue this command
+                # old_msg = msg_num
+                # log message in logfile
+                logger.log_it('Command was --> ' + msg)
 
-                #look up command in database (piviteye.db)
+                # look up command in database (piviteye.db)
                 command = db.get_command(msg)
                 if command != []:
                     logger.log_it(command[2])
@@ -66,7 +66,7 @@ def command_check():
                     else:
                         pass
                     if command[5] != "":
-                        cmd_response = subprocess.call(command[5],shell=True)
+                        cmd_response = subprocess.call(command[5], shell=True)
                         if cmd_response == 0:
                             tw.send_message('Command Completed Successfully!')
                         else:
