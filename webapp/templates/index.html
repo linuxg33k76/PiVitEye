@@ -6,50 +6,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="static/styles/js/uikit.min.js"></script>
         <script src="static/styles/js/uikit-icons.min.js"></script>
-        <script type="text/javascript">
-        // function formroute(id){
-        //     var button = id;
-        //     if (button === '1'){
-        //       document.getElementById('pcapform').action = '/pcap/start';
-        //     } else if {
-        //       var response = confirm("Are you sure you wish to continue?");
-        //       if (response == true) {
-        //         document.getElementById('pcapform').action = '/pcap/clear';
-        //       } else {
-        //         document.getElementById('pcapform').action = '/';
-        //         document.getElementById('pcapform').method = '';
-        //         };
-        //       };
-        //     }
-
-
-        function formroute(id){
-          var buttonId = id;
-          switch (buttonId){
-            case '0':
-              alert('No Button Pressed!');
-              break;
-            case '1':
-              document.getElementById('pcapform').action = '/pcap/start';
-              break;
-            case '2':
-              var response = confirm("Are you sure you wish to continue?");
-              if (response == true) {
-                      document.getElementById('pcapform').action = '/pcap/clear';
-              } else {
-                      document.getElementById('pcapform').action = '/';
-                      document.getElementById('pcapform').method = '';
-              };
-              break;
-            case '3':
-              document.getElementById('pcapform').action = '/motion/start';
-              break;
-            case '4':
-              document.getElementById('pcapform').action = '/motion/stop';
-              break;
-          }
-        }
-        </script>
+        <script src="static/js/indexview.js"></script>
     </head>
     <h1>Piviteye Dashboard</h1>
 
@@ -60,18 +17,61 @@
 	</head>
 	<body>
 		<p> PiVitEye Web Interface</p>
-			<li><a href="/videos"> Videos </a></li>
-			<li><a href="/log"> Log File </a></li>
-			<li><a href="/pcap"> Packet Captures </a></li>
-			<li><a href="/stream"> Live Stream (requires user:pass) </a></li>
+      <div class="pagelist">
+        <li><a href="/videos"> Videos </a></li>
+  			<li><a href="/log"> Log File </a></li>
+  			<li><a href="/pcap"> Packet Captures </a></li>
+  			<li><a href="/stream"> Live Stream (requires user:pass) </a></li>
+      </div>
     <p>
   		<div>
         <div>
-          <form id ="pcapform" action="" method="post">
-              <input id="1" class="uk-button uk-button-primary uk-button-large " type="submit" value="30 Second Packet Capture" onclick="formroute(this.id);" />
-              <input id="2" class="uk-button uk-button-danger uk-button-large " type="submit" value="Clear Captures" onclick="formroute(this.id);"/>
-              <input id="3" class="uk-button uk-button-primary uk-button-large " type="submit" value="Start Motion Service" onclick="formroute(this.id);" />
-              <input id="4" class="uk-button uk-button-danger uk-button-large " type="submit" value="Stop Motion Service" onclick="formroute(this.id);"/>
+          <form id ="dashboardform" action="" method="post">
+            <p>
+              <div>
+                <div class="log">
+                  Log Functions
+                </div>
+                <input id="taillogbtn" class="uk-button uk-button-primary uk-button-large uk-width-1-3 " type="submit" value="Last 30 Log Entries" onclick="formroute(this.id);" />
+                <input id="clearlogsbtn" class="uk-button uk-button-danger uk-button-large uk-width-1-3 " type="submit" value="Clear Log Files" onclick="formroute(this.id);"/>
+              </div>
+            </p>
+            <p>
+              <div>
+                <div class="video">
+                  Video Functions
+                </div>
+                <input id="videocapbtn" class="uk-button uk-button-primary uk-button-large uk-width-1-3 " type="submit" value="60 Sec Video Capture" onclick="formroute(this.id);" />
+                <input id="clearvideosbtn" class="uk-button uk-button-danger uk-button-large uk-width-1-3 " type="submit" value="Clear Cached Videos" onclick="formroute(this.id);"/>
+              </div>
+            </p>
+            <p>
+              <div>
+                <div class="pcap">
+                  Packet Capture
+                </div>
+                <input id="pcapbtn" class="uk-button uk-button-primary uk-button-large uk-width-1-3 " type="submit" value="60 Sec Packet Capture" onclick="formroute(this.id);" />
+                <input id="clearpcapbtn" class="uk-button uk-button-danger uk-button-large uk-width-1-3" type="submit" value="Clear Captures" onclick="formroute(this.id);"/>
+              </div>
+            </p>
+            <p>
+              <div>
+                <div class="motion">
+                  Motion Service
+                </div>
+                <input id="motionstartbtn" class="uk-button uk-button-primary uk-button-large uk-width-1-3 " type="submit" value="Start Motion Service" onclick="formroute(this.id);" />
+                <input id="motionstopbtn" class="uk-button uk-button-danger uk-button-large uk-width-1-3 " type="submit" value="Stop Motion Service" onclick="formroute(this.id);"/>
+              </div>
+          </p>
+          <p>
+            <div>
+              <div class="system">
+                System Functions
+              </div>
+              <input id="uptimebtn" class="uk-button uk-button-primary uk-button-large uk-width-1-3 " type="submit" value="Get Uptime" onclick="formroute(this.id);" />
+              <input id="updatebtn" class="uk-button uk-button-danger uk-button-large uk-width-1-3 " type="submit" value="System Update" onclick="formroute(this.id);"/>
+            </div>
+          </p>
           </form>
         </div>
   		</div>

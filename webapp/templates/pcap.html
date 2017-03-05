@@ -6,16 +6,13 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="static/styles/js/uikit.min.js"></script>
         <script src="static/styles/js/uikit-icons.min.js"></script>
-
-        
-
     </head>
   <body>
     <h2> Packet Captures in {{ directory }}</h2></br>
       <div style="float: left; width: 50%;">
         <ul>
           {% for file in files: %}
-            <li><a href="/static/log/{{ file }}">{{ file }}</a></li>
+            <li><a href="/static/pcap/{{ file }}">{{ file }}</a></li>
           {% endfor %}
         </ul>
       </div>
@@ -26,8 +23,6 @@
           {% endfor %}
         </ul>
       </div>
-
-
-
+      <a href="http://192.168.1.250:5000">Return</a>
   </body>
 </html>

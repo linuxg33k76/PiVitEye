@@ -8,22 +8,16 @@
         <script src="static/styles/js/uikit-icons.min.js"></script>
 
     </head>
-  <body>
-  <h2> Videos in {{ directory }}</h2></br>
-    <div style="float: left; width: 50%;">
+  <body>Last 30 Log Entries:</h1>
+    <p>
       <ul>
-        {% for file in files: %}
-          <li><a href="/static/video/{{ file }}">{{ file }}</a></li>
+        {% for line in msg %}
+        <li>
+          {{ line }}
+        </li>
         {% endfor %}
       </ul>
-    </div>
-    <div style="float: right; width: 50%;">
-      <ul>
-        {% for date in modified: %}
-          <li> last modified on {{ date }}</li>
-        {% endfor %}
-      </ul>
-    </div>
+    </p>
     <a href="http://192.168.1.250:5000">Return</a>
   </body>
 </html>
