@@ -104,7 +104,7 @@ class PyVitEyeDB(object):
                      VALUES (20,'update','User Requested System Update.','Updating Raspberry Pi 3...','','sudo apt-get update && sudo apt-get upgrade -y');''')
 
         conn.execute('''INSERT INTO COMMANDS (ID,CMD,LOGMSG,SMSMSG,PICMD,SUBCALL) \
-                     VALUES (21,'tshark','User Requested Packet Capture on eth0.','Capturing Network Traffic on eth0 FOR 5 minutes...','','sudo tshark -i eth0 -a duration:300 -b filesize:2048 -w /mnt/usb/pcap/output.pcap -F pcap');''')
+                     VALUES (21,'tshark','User Requested Packet Capture on eth0.','Capturing Network Traffic on eth0 FOR 1 minute...','','sh SupportFiles/tshark.sh');''')
 
         # Commit Data
         conn.commit()

@@ -115,6 +115,24 @@ def system_uptime():
     return render_template('output.html', msg=msg)
 
 
+@app.route('/system/restart', methods=['POST'])
+def system_restart():
+    cmd = os.popen('sudo shutdown -r now')
+    cmd.read()
+    cmd.close()
+    msg = 'User initiated Restart of System in progress...'
+    return render_template('output.html', msg=msg)
+
+
+@app.route('/system/shutdown', methods=['POST'])
+def system_shutdown():
+    cmd = os.popen('sudo shutdown -h now')
+    cmd.read()
+    cmd.close()
+    msg = 'User initiated Shutdown of System in progress...'
+    return render_template('output.html', msg=msg)
+
+
 @app.route('/video/capture', methods=['POST'])
 def video_capture():
     cmd = os.popen('sh /opt/piviteye/SupportFiles/webcam.sh')

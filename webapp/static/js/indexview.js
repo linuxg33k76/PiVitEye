@@ -61,5 +61,23 @@ function formroute(id){
               document.getElementById('dashboardform').method = '';
       };
       break;
+    case 'restartbtn':
+      var response = confirm("Are you sure you wish to Restart the System?");
+      if (response == true) {
+              document.getElementById('dashboardform').action = '/system/restart';
+      } else {
+              document.getElementById('dashboardform').action = '/';
+              document.getElementById('dashboardform').method = '';
+      };
+      break;
+    case 'sysshutdownbtn':
+      var response = confirm("Are you sure you wish to Shutdown the System?");
+      if (response == true) {
+              document.getElementById('dashboardform').action = '/system/shutdown';
+      } else {
+              document.getElementById('dashboardform').action = '/';
+              document.getElementById('dashboardform').method = '';
+      };
+      break;
   }
 }
