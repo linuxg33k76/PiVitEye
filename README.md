@@ -23,9 +23,13 @@ Installation:
 4.  Make symbolic links for piviteye/webapp/static for short cuts to /mnt/usb/video and /mnt/usb/pcap
     - ln -s /mnt/usb/video piviteye/webapp/static/video
     - ln -s /mnt/usb/pcap piviteye/webapp/static/pcap
-5.  Add following entries to crontab using crontab -e (tweak as desired)
+5.  Add following entries to /etc/crontab using vim or nano (tweak as desired)
     
-    @reboot sleep 60; sudo python3 /opt/piviteye/piviteye.py
-    @reboot sleep 60; sudo python3 /opt/piviteye/webapp/app.py
-    59 23 * * * /opt/piviteye/SupportFiles/motion_jpg_cleanup.sh
+    @reboot 	root	sleep 60; python3 /opt/piviteye/piviteye.py
+    @reboot 	root	sleep 60; python3 /opt/piviteye/webapp/app.py
+
+    59 23 	* * * 	root	/opt/piviteye/SupportFiles/motion_jpg_cleanup.sh
+    59 23   * * *   root    /opt/piviteye/SupportFiles/log_rotation.sh
+
+
 
