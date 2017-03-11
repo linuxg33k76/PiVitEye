@@ -3,6 +3,15 @@ function formroute(id){
   switch (buttonId){
     case 'taillogbtn':
       document.getElementById('dashboardform').action = '/log/tail';
+      var lines = prompt("Last x lines to show?","30");
+      var isNumber =  /^\d+$/.test(lines);
+      if (isNumber === true){
+          document.getElementById('dashboardform').action = '/log/tail/'+ lines;
+      } else {
+          alert('Entry is NOT a number.  Command Canceled!\n');
+          document.getElementById('dashboardform').action = '/';
+          document.getElementById('dashboardform').method = '';
+      };
       break;
     case 'clearlogsbtn':
       var response = confirm("Are you sure you wish to remove ALL Log Files?");
@@ -14,7 +23,15 @@ function formroute(id){
       };
       break;
     case 'videocapbtn':
-      document.getElementById('dashboardform').action = '/video/capture';
+      var time = prompt("Recording length? (in seconds)","60");
+      var isNumber =  /^\d+$/.test(time);
+      if (isNumber === true){
+          document.getElementById('dashboardform').action = '/video/capture/'+ time;
+      } else {
+          alert('Entry is NOT a number.  Command Canceled!\n');
+          document.getElementById('dashboardform').action = '/';
+          document.getElementById('dashboardform').method = '';
+      };
       break;
     case 'clearvideosbtn':
       var response = confirm("Are you sure you wish to remove ALL Video Files?");
@@ -26,7 +43,15 @@ function formroute(id){
       };
       break;
     case 'pcapbtn':
-      document.getElementById('dashboardform').action = '/pcap/start';
+      var time = prompt("Capture length? (in seconds)","60");
+      var isNumber =  /^\d+$/.test(time);
+      if (isNumber === true){
+          document.getElementById('dashboardform').action = '/pcap/start/'+ time;
+      } else {
+          alert('Entry is NOT a number.  Command Canceled!\n');
+          document.getElementById('dashboardform').action = '/';
+          document.getElementById('dashboardform').method = '';
+      };
       break;
     case 'clearpcapbtn':
       var response = confirm("Are you sure you wish to continue?");

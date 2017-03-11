@@ -8,15 +8,15 @@
         <script src="static/styles/js/uikit-icons.min.js"></script>
 
     </head>
-  <body>Last 30 Log Entries:</h1>
+  <body>Last {{ lines }} Log Entries:</h1>
     <p>
-      <ul>
+      <ol>
         {% for line in msg %}
         <li>
           {{ line }}
         </li>
         {% endfor %}
-      </ul>
+      </ol>
     </p>
     <a href="http://192.168.1.250:5000">Return</a>
   </body>

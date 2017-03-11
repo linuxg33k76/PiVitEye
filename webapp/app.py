@@ -62,9 +62,9 @@ def stream():
         return render_template('livefeed.html')
 
 
-@app.route('/pcap/start', methods=['POST'])
-def pcap_start():
-    cmd = os.popen('sh /opt/piviteye/SupportFiles/tshark.sh')
+@app.route('/pcap/start/<time>', methods=['POST'])
+def pcap_start(time):
+    cmd = os.popen(('sh /opt/piviteye/SupportFiles/tshark.sh {0}').format(time))
     cmd.read()
     cmd.close()
     msg = 'User initiated packet capture is complete!'
@@ -134,9 +134,9 @@ def system_shutdown():
     return render_template('output.html', msg=msg)
 
 
-@app.route('/video/capture', methods=['POST'])
-def video_capture():
-    cmd = os.popen('sh /opt/piviteye/SupportFiles/webcam.sh')
+@app.route('/video/capture/<time>', methods=['POST'])
+def video_capture(time):
+    cmd = os.popen(('sh /opt/piviteye/SupportFiles/webcam.sh {0}').format(time))
     cmd.read()
     cmd.close()
     msg = 'User initiated video capture is complete!'
@@ -152,15 +152,15 @@ def video_clear():
     return render_template('output.html', msg=msg)
 
 
-@app.route('/log/tail', methods=['POST'])
-def log_tail():
-    cmd = os.popen('tail -n 30 /mnt/usb/log/piviteye.log')
+@app.route('/log/tail/<lines>', methods=['POST'])
+def log_tail(lines):
+    cmd = os.popen(('tail -n {0} /mnt/usb/log/piviteye.log').format(lines))
     msg = cmd.read()
     cmd.close()
     msg_array = msg.split('\n')
     # Remove the last '\n' from array
     msg_array.pop()
-    return render_template('logoutput.html', msg=msg_array)
+    return render_template('logoutput.html', msg=msg_array, lines=lines)
 
 
 @app.route('/log/clear', methods=['POST'])
