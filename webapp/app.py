@@ -33,7 +33,7 @@ def video():
     files = os.listdir(basedir)
     mdate = []
     for file in files:
-        mtime = os.path.getmtime(basedir+file)
+        mtime = os.path.getmtime(basedir + file)
         last_modified_date = datetime.datetime.fromtimestamp(mtime)
         mdate.append(last_modified_date)
     return render_template('video.html', files=files, directory=basedir, modified=mdate)
@@ -45,7 +45,7 @@ def pcap():
     files = os.listdir(basedir)
     mdate = []
     for file in files:
-        mtime = os.path.getmtime(basedir+file)
+        mtime = os.path.getmtime(basedir + file)
         last_modified_date = datetime.datetime.fromtimestamp(mtime)
         mdate.append(last_modified_date)
     return render_template('pcap.html', files=files, directory=basedir, modified=mdate)
