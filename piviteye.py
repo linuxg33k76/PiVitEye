@@ -7,6 +7,7 @@
 # Revision:  October 25, 2016 v1.3.0 - code cleanup and usb storage added
 # Revision:  February 25, 2017 v1.5.0 - added /etc/piviteye/twilio.conf JSON config file code
 # Revision:  February 25, 2017 v1.5.0 - added status command uptime message
+# Revision:  May 22, 2017 v1.7.0 - added daily status check that sends SMS update
 
 # This program takes SMS messages and initiates actions based on command Rx'd
 
@@ -77,13 +78,9 @@ def command_check():
                             tw.send_message('Command Completed Successfully!')
                         else:
                             tw.send_message('Command failed... :(')
-                    else:
-                        pass
                 else:
                     logger.log_it('Invalid Command Received.')
                     tw.send_message('Invalid Command Received.')
-            else:
-                pass
 
 
 # Define Pi Command

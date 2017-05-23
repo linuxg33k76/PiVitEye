@@ -4,6 +4,7 @@
 # Author:  Ben Calvert
 # Date:  October 11, 2016 v1.0.0
 # Revision:  February 25, 2017 v1.1.0 - added status pi command to display uptime
+# Revision:  May 2107 v.1.3.0 - removed SQLite3 and added Pony ORM
 
 # This Class handles all DB functions
 
