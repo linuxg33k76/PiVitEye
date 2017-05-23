@@ -1,0 +1,11 @@
+[Unit]
+Description=Web Piviteye Service
+After=multi-user.target
+
+[Service]
+ExecStart=/usr/bin/python3 /opt/piviteye/webapp/app.py
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+Alias=webpiviteye.service
