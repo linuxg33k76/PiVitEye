@@ -131,6 +131,10 @@ def main():
 
     while (True):
         command_check()
+        # Daily Program Status Notification Check
+        date_string = datetime.datetime.now().strftime('%H:%M:%S')
+        if date_string == '22:30:00':
+            tw.send_message(('The current Time is: {0}.  I am Still Alive!').format(date_string))
 
 # Start Point
 
