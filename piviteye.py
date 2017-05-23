@@ -29,6 +29,11 @@ import json
 
 def command_check():
     while (True):
+            # Daily Program Status Notification Check
+            date_string = datetime.datetime.now().strftime('%H:%M')
+            if date_string == '20:30':
+                tw.send_message(('The current Time is: {0}.  I am Still Alive!').format(date_string))
+                sleep(60)
             # get old message
             old_msg_id = tw.get_last_msg()
             old_msg = tw.get_last_msg_body().lower().strip()
@@ -131,10 +136,6 @@ def main():
 
     while (True):
         command_check()
-        # Daily Program Status Notification Check
-        date_string = datetime.datetime.now().strftime('%H:%M:%S')
-        if date_string == '20:30:00':
-            tw.send_message(('The current Time is: {0}.  I am Still Alive!').format(date_string))
 
 # Start Point
 
