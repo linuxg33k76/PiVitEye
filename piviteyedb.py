@@ -41,7 +41,7 @@ def populate_db():
     c1 = Commands(id=1,
                   cmd='list',
                   logmsg='Sending the Available Commands List.',
-                  smsmsg='Executed - list command. Valid Commands: close, open, restart, record, picam, pivideo, halt, shutdown, disarm, arm, mute, unmute, volmax, volmin, volmid, voltest, status, uptime, update, tshark and list.',
+                  smsmsg='Executed - list command. Valid Commands: close, open, restart, record, picam, pivideo, halt, shutdown, disarm, arm, mute, unmute, volmax, volmin, volmid, voltest, status, uptime, update, tshark, speed and list.',
                   picmd='',
                   subcall='')
 
@@ -167,7 +167,12 @@ def populate_db():
                    smsmsg='Capturing Network Traffic on eth0 FOR 1 minute...',
                    picmd='',
                    subcall='sh SupportFiles/tshark.sh')
-
+    c21 = Commands(id=22,
+                   cmd='speed',
+                   logmsg='User Requested Broadband Speedtest.',
+                   smsmsg='Running Broadband Speedtest...',
+                   picmd='',
+                   subcall='python3 /opt/piviteye/SMSNotify.py $(speedtest-cli --simple)')
     commit()
 
 

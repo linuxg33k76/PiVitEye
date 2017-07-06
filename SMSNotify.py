@@ -9,16 +9,26 @@
 # Import class files
 
 import os
+import sys
 import glob
 import twclass
 import json
 
 
-def main():
+def main(argv):
 
-    path = '/mnt/usb/video/'
-    latest_video = max(glob.iglob(os.path.join(path, '*.[Aa][Vv][Ii]')), key=os.path.getctime)
-    msg = 'Motion Detected!  Recording has been made: ' + latest_video
+    # Setup message from arguments passed to command
+    argv.pop(0)
+    msg = ''
+    if argv:
+        # set the message equal to the text after filename in argument
+        for val in argv:
+            msg = msg + ' ' + val
+    else:
+        # treat this like a video message
+        path = '/mnt/usb/video/'
+        latest_video = max(glob.iglob(os.path.join(path, '*.[Aa][Vv][Ii]')), key=os.path.getctime)
+        msg = 'Motion Detected!  Recording has been made: ' + latest_video
 
     #  Load Twilio Configuration VALUES
     with open('/etc/piviteye/twilio.conf') as data_file:
@@ -35,4 +45,4 @@ def main():
     tw.send_message(msg)
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv)

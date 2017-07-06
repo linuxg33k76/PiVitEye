@@ -79,6 +79,15 @@ def pcap_clear():
     msg = 'User initiated DELETION of PCAP files is complete!'
     return render_template('output.html', msg=msg)
 
+@app.route('/speedtest/start', methods=['POST'])
+def speedtest_start():
+    cmd = os.popen('sudo speedtest-cli')
+    msg = cmd.read()
+    cmd.close()
+    msg_array = msg.split('\n')
+    # # Remove the last '\n' from array
+    msg_array.pop()
+    return render_template('output.html', msg=msg_array)
 
 @app.route('/motion/start', methods=['POST'])
 def motion_start():
