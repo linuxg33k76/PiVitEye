@@ -26,6 +26,17 @@ def log():
 
     return render_template('log.html', files=files, directory=basedir, modified=mdate)
 
+@app.route('/speedtestlog')
+def speedtest_log():
+    basedir = '/mnt/usb/bandwidth/'
+    files = os.listdir(basedir)
+    mdate = []
+    for file in files:
+        mtime = os.path.getmtime(basedir+file)
+        last_modified_date = datetime.datetime.fromtimestamp(mtime)
+        mdate.append(last_modified_date)
+
+    return render_template('speedtestlog.html', files=files, directory=basedir, modified=mdate)
 
 @app.route('/videos')
 def video():
@@ -81,13 +92,22 @@ def pcap_clear():
 
 @app.route('/speedtest/start', methods=['POST'])
 def speedtest_start():
-    cmd = os.popen('sudo speedtest-cli')
+    cmd = os.popen('sudo echo "Current Date: $(date)" >> /mnt/usb/bandwidth/speedtest.log && sudo speedtest-cli --simple >> /mnt/usb/bandwidth/speedtest.log')
+    cmd.read()
+    cmd.close()
+    msg = 'Complete! See Speedtest Log for details.'
+    print(msg)
+    return render_template('output.html', msg=msg)
+
+@app.route('/speedtest/entries/<lines>', methods=['POST'])
+def speedtest_entries(lines):
+    cmd = os.popen(('tail -n {0} /mnt/usb/bandwidth/speedtest.log').format(lines))
     msg = cmd.read()
     cmd.close()
     msg_array = msg.split('\n')
-    # # Remove the last '\n' from array
+    # Remove the last '\n' from array
     msg_array.pop()
-    return render_template('output.html', msg=msg_array)
+    return render_template('logoutput.html', msg=msg_array, lines=lines)
 
 @app.route('/motion/start', methods=['POST'])
 def motion_start():

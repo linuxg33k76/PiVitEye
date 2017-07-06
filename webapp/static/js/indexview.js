@@ -1,7 +1,7 @@
 function formroute(id){
     var buttonId = id;
     switch (buttonId){
-        case 'taillogbtn':
+        case 'taillog_btn':
             document.getElementById('dashboardform').action = '/log/tail';
             var lines = prompt("Last x lines to show?","30");
             var isNumber =  /^\d+$/.test(lines);
@@ -13,7 +13,7 @@ function formroute(id){
                 document.getElementById('dashboardform').method = '';
             };
             break;
-        case 'clearlogsbtn':
+        case 'clearlogs_btn':
             var response = confirm("Are you sure you wish to remove ALL Log Files?");
             if (response == true) {
                   document.getElementById('dashboardform').action = '/log/clear';
@@ -22,7 +22,7 @@ function formroute(id){
                   document.getElementById('dashboardform').method = '';
             };
             break;
-        case 'videocapbtn':
+        case 'videocap_btn':
             var time = prompt("Recording length? (in seconds)","60");
             var isNumber =  /^\d+$/.test(time);
             if (isNumber === true){
@@ -33,7 +33,7 @@ function formroute(id){
               document.getElementById('dashboardform').method = '';
             };
             break;
-        case 'clearvideosbtn':
+        case 'clearvideos_btn':
             var response = confirm("Are you sure you wish to remove ALL Video Files?");
             if (response == true) {
                   document.getElementById('dashboardform').action = '/video/clear';
@@ -42,7 +42,7 @@ function formroute(id){
                   document.getElementById('dashboardform').method = '';
             };
             break;
-        case 'pcapbtn':
+        case 'pcap_btn':
             var time = prompt("Capture length? (in seconds)","60");
             var isNumber =  /^\d+$/.test(time);
             if (isNumber === true){
@@ -53,7 +53,7 @@ function formroute(id){
               document.getElementById('dashboardform').method = '';
             };
             break;
-        case 'clearpcapbtn':
+        case 'clearpcap_btn':
             var response = confirm("Are you sure you wish to continue?");
             if (response == true) {
                   document.getElementById('dashboardform').action = '/pcap/clear';
@@ -62,16 +62,25 @@ function formroute(id){
                   document.getElementById('dashboardform').method = '';
             };
             break;
-        case 'speedtest_start':
+        case 'speedtest_btn':
             document.getElementById('dashboardform').action = '/speedtest/start';
             break;
-        case 'speedtest_log':
-            document.getElementById('dashboardform').action = '/speedtest/download';
+        case 'speedtestlog_btn':
+            document.getElementById('dashboardform').action = '/speedtest/entries';
+            var lines = prompt("Last x lines to show?","30");
+            var isNumber =  /^\d+$/.test(lines);
+            if (isNumber === true){
+                document.getElementById('dashboardform').action = '/speedtest/entries/'+ lines;
+            } else {
+                alert('Entry is NOT a number.  Command Canceled!\n');
+                document.getElementById('dashboardform').action = '/';
+                document.getElementById('dashboardform').method = '';
+            };
             break;
-        case 'motionstartbtn':
+        case 'motionstart_btn':
             document.getElementById('dashboardform').action = '/motion/start';
             break;
-        case 'motionstopbtn':
+        case 'motionstop_btn':
             var response = confirm("Are you sure you wish to continue?");
             if (response == true) {
                   document.getElementById('dashboardform').action = '/motion/stop';
@@ -80,10 +89,10 @@ function formroute(id){
                   document.getElementById('dashboardform').method = '';
             };
             break;
-        case 'uptimebtn':
+        case 'uptime_btn':
             document.getElementById('dashboardform').action = '/system/uptime';
             break;
-        case 'updatebtn':
+        case 'update_btn':
             var response = confirm("Are you sure you wish to continue?");
             if (response == true) {
                   document.getElementById('dashboardform').action = '/system/update';
@@ -92,7 +101,7 @@ function formroute(id){
                   document.getElementById('dashboardform').method = '';
             };
             break;
-        case 'restartbtn':
+        case 'restart_btn':
             var response = confirm("Are you sure you wish to Restart the System?");
             if (response == true) {
                   document.getElementById('dashboardform').action = '/system/restart';
@@ -101,7 +110,7 @@ function formroute(id){
                   document.getElementById('dashboardform').method = '';
             };
             break;
-        case 'sysshutdownbtn':
+        case 'sysshutdown_btn':
             var response = confirm("Are you sure you wish to Shutdown the System?");
             if (response == true) {
                   document.getElementById('dashboardform').action = '/system/shutdown';
