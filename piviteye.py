@@ -30,12 +30,16 @@ import json
 
 def command_check():
     while (True):
-            # Daily Program Status Notification Check
-            date_string = datetime.datetime.now().strftime('%H:%M')
-            if date_string == '20:30':
+        # Daily Program Status Notification Check
+        date_string = datetime.datetime.now().strftime('%H:%M')
+        if date_string == '20:30':
+            try:
                 tw.send_message(('The current Time is: {0}.  I am Still Alive!').format(date_string))
-                sleep(60)
-            # get old message
+            except:
+                continue
+            sleep(60)
+        # get old message
+        try:
             old_msg_id = tw.get_last_msg()
             old_msg = tw.get_last_msg_body().lower().strip()
             logger.log_it('Last Rx Message ID -> ' + old_msg_id)
@@ -54,33 +58,34 @@ def command_check():
             # store last message's sid number (ID number)
             msg_num = messages[0].sid
             logger.log_it('New Rx Message ID -> ' + msg_num)
+        except:
+            continue
+        # check message status and pull recieved messages only
+        if messages[0].status == 'received' and msg_num != old_msg_id:
 
-            # check message status and pull recieved messages only
-            if messages[0].status == 'received' and msg_num != old_msg_id:
+            # store the new message sid to Global Variable old_msg, so we don't reissue this command
+            # old_msg = msg_num
+            # log message in logfile
+            logger.log_it('Command was --> ' + msg)
 
-                # store the new message sid to Global Variable old_msg, so we don't reissue this command
-                # old_msg = msg_num
-                # log message in logfile
-                logger.log_it('Command was --> ' + msg)
-
-                # look up command in database (piviteye.db)
-                command = Pdb.get_command(msg)
-                if command != []:
-                    logger.log_it(command.logmsg)
-                    tw.send_message(command.smsmsg)
-                    if command.picmd != '':
-                        pi_command(command.picmd)
-                    else:
-                        pass
-                    if command.subcall != "":
-                        cmd_response = subprocess.call(command.subcall, shell=True)
-                        if cmd_response == 0:
-                            tw.send_message('Command Completed Successfully!')
-                        else:
-                            tw.send_message('Command failed... :(')
+            # look up command in database (piviteye.db)
+            command = Pdb.get_command(msg)
+            if command != []:
+                logger.log_it(command.logmsg)
+                tw.send_message(command.smsmsg)
+                if command.picmd != '':
+                    pi_command(command.picmd)
                 else:
-                    logger.log_it('Invalid Command Received.')
-                    tw.send_message('Invalid Command Received.')
+                    pass
+                if command.subcall != "":
+                    cmd_response = subprocess.call(command.subcall, shell=True)
+                    if cmd_response == 0:
+                        tw.send_message('Command Completed Successfully!')
+                    else:
+                        tw.send_message('Command failed... :(')
+            else:
+                logger.log_it('Invalid Command Received.')
+                tw.send_message('Invalid Command Received.')
 
 
 # Define Pi Command
