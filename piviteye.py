@@ -1,3 +1,4 @@
+
 # Piviteye Python Program for Raspberry Pi 3
 # Author:  Ben Calvert
 # Date:  May 27, 2016 v1.0.0
@@ -8,15 +9,15 @@
 # Revision:  February 25, 2017 v1.5.0 - added /etc/piviteye/twilio.conf JSON config file code
 # Revision:  February 25, 2017 v1.5.0 - added status command uptime message
 # Revision:  May 22, 2017 v1.7.0 - added daily status check that sends SMS update
+# Revision:  Sept 8, 2017 v2.1.0 - Redefined main() and added try/except blocks
 
 # This program takes SMS messages and initiates actions based on command Rx'd
 
 # Import class files
 
-from gpiozero import LED, Button
-
+# from gpiozero import LED, Button
 from time import sleep
-from twilio.rest import TwilioRestClient
+# from twilio.rest import TwilioRestClient
 import twclass
 import piviteyedb as Pdb
 import picamclass
@@ -26,10 +27,53 @@ import datetime
 import json
 
 
-# Define command check
+# Define Pi Command
 
-def command_check():
-    while (True):
+def pi_command(command):
+    if command == "halt":
+        graceful_exit()
+    elif command == "pivideo":
+        v = picamclass.PiCam()
+        v.take_video(0)
+    elif command == "garage_door":
+        toggle_relay()
+    elif command == "status":
+        # Use the global program start time to calculate
+        prog_uptime = datetime.datetime.now() - start_time
+        message = 'Program Uptime: {0}'.format(str(prog_uptime))
+        tw.send_message(message)
+    elif command == 'uptime':
+        # Get command output and convert byte code to utf-8
+        message = subprocess.check_output('uptime')
+        tw.send_message(str(message, 'utf-8'))
+    else:
+        return
+
+# Define Quit Function
+
+def graceful_exit():
+    logger.log_warn('User Initiated Exit')
+    logger.log_it('Gracefully Exiting Program.')
+    tw.send_message('User Initiated Shutdown of System Complete.')
+    raise SystemExit('User Initiated Exit')
+
+
+def toggle_relay():
+    # To Do:  Finish Relay Toggle
+    open_led.on()
+    closed_led.on()
+    sleep(2)
+    open_led.off()
+    closed_led.off()
+
+# ----------------------Initialize------------------------ #
+
+def main():
+
+    # loop continuing to get messages every 30 seconds
+    # If exit_code == True, call the graceful_exit() function
+
+    while True:
         # Daily Program Status Notification Check
         date_string = datetime.datetime.now().strftime('%H:%M')
         if date_string == '20:30':
@@ -63,8 +107,6 @@ def command_check():
         # check message status and pull recieved messages only
         if messages[0].status == 'received' and msg_num != old_msg_id:
 
-            # store the new message sid to Global Variable old_msg, so we don't reissue this command
-            # old_msg = msg_num
             # log message in logfile
             logger.log_it('Command was --> ' + msg)
 
@@ -87,59 +129,7 @@ def command_check():
                 logger.log_it('Invalid Command Received.')
                 tw.send_message('Invalid Command Received.')
 
-
-# Define Pi Command
-
-def pi_command(command):
-    if command == "halt":
-        graceful_exit()
-    elif command == "pivideo":
-        v = picamclass.PiCam()
-        v.take_video(0)
-    elif command == "garage_door":
-        toggle_relay()
-    elif command == "status":
-        # Use the global program start time to calculate
-        prog_uptime = datetime.datetime.now() - start_time
-        message = 'Program Uptime: {0}'.format(str(prog_uptime))
-        tw.send_message(message)
-    elif command == 'uptime':
-        # Get command output and convert byte code to utf-8
-        message = subprocess.check_output('uptime')
-        tw.send_message(str(message, 'utf-8'))
-    else:
-        return
-
-
-# Define Quit Function
-
-def graceful_exit():
-    logger.log_warn('User Initiated Exit')
-    logger.log_it('Gracefully Exiting Program.')
-    tw.send_message('User Initiated Shutdown of System Complete.')
-    raise SystemExit('User Initiated Exit')
-
-
-def toggle_relay():
-    # Rework This...
-    open_led.on()
-    closed_led.on()
-    sleep(2)
-    open_led.off()
-    closed_led.off()
-
-
-# ----------------------Initialize------------------------ #
-
-def main():
-
-    # loop continuing to get messages every 30 seconds
-    # If exit_code == True, call the graceful_exit() function
-
-    while (True):
-        command_check()
-
-# Start Point
+# Program Start Point
 
 if __name__ == "__main__":
 
@@ -160,15 +150,7 @@ if __name__ == "__main__":
     logger = programlogclass.ProgramLog()
 
     # New piviteye database instance
-    # db = piviteyedb.PyVitEyeDB()
     Pdb.populate_db()
-
-    # # LED Test
-    # open_led.on()
-    # closed_led.on()
-    # sleep(2)                #Sleep 2 seconds
-    # open_led.off()
-    # closed_led.off()
 
     # Initialization SMS message
     logger.log_it('Starting Program...')
