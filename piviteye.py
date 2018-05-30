@@ -15,7 +15,7 @@
 
 # Import class files
 
-# from gpiozero import LED, Button
+from gpiozero import LED, Button
 from time import sleep
 # from twilio.rest import TwilioRestClient
 import twclass
@@ -59,12 +59,11 @@ def graceful_exit():
 
 
 def toggle_relay():
-    # To Do:  Finish Relay Toggle
-    open_led.on()
-    closed_led.on()
-    sleep(2)
+     # # GPIO Object Instances
+    open_led = LED(17)          #Green LED on GPIO port 17
     open_led.off()
-    closed_led.off()
+    sleep(3)
+    open_led.on()
 
 # ----------------------Initialize------------------------ #
 
@@ -132,11 +131,6 @@ def main():
 # Program Start Point
 
 if __name__ == "__main__":
-
-    # # GPIO Object Instances
-    # closed_led = LED(4)         #Red LED on GPIO port 4
-    # open_led = LED(17)          #Green LED on GPIO port 17
-    # button = Button(23)         #Button on GPIO port 23
 
     # Load Twilio Configuration VALUES
     with open('/etc/piviteye/twilio.conf') as data_file:
