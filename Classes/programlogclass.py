@@ -4,8 +4,8 @@
 import datetime
 import logging
 
-
 class ProgramLog (object):
+
     '''
     Program Logger Class
     '''

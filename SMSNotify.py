@@ -11,9 +11,8 @@
 import os
 import sys
 import glob
-import twclass
 import json
-
+from Classes import twclass
 
 def main(argv):
 
@@ -21,10 +20,12 @@ def main(argv):
     argv.pop(0)
     msg = ''
     if argv:
+
         # set the message equal to the text after filename in argument
         for val in argv:
             msg = msg + ' ' + val
     else:
+        
         # treat this like a video message
         path = '/mnt/usb/video/'
         latest_video = max(glob.iglob(os.path.join(path, '*.[Aa][Vv][Ii]')), key=os.path.getctime)

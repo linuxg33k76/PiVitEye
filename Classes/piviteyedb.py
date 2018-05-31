@@ -8,8 +8,6 @@
 
 # This Class handles all DB functions
 
-# Import class files
-# import sqlite3
 from pony.orm import *
 
 # Instantiate a new db Object
@@ -21,7 +19,7 @@ db.bind('sqlite', ':memory:', create_db=True)
 
 # Declare data Models as classes
 class Commands(db.Entity):
-    # _table_ = "COMMANDS"
+
     id = PrimaryKey(int, auto=True)
     cmd = Required(str)
     logmsg = Required(str)
@@ -31,11 +29,12 @@ class Commands(db.Entity):
 
 
 # sql_debug(True)
+
 # Map models to database, but DO NOT create the tables
 db.generate_mapping(create_tables=True)
 
-
 # Set Commands
+
 @db_session
 def populate_db():
     c1 = Commands(id=1,
@@ -177,7 +176,9 @@ def populate_db():
 
 
 # Format results as Dictionary - For Testing Purposes
+
 def format_results(data):
+
     # create a dictionary object of each result
     results = []
     if data is not None:
@@ -187,6 +188,7 @@ def format_results(data):
 
 
 # Get Counters
+
 @db_session
 def get_count(model):
     result = model.select().count()
@@ -194,8 +196,10 @@ def get_count(model):
 
 
 # Get Systems query
+
 @db_session
 def get_commands():
+
     # Get a list of objects (hint; use the [:] slice operator)
     results = Commands.select()[:]
     format_results(results)
@@ -203,9 +207,12 @@ def get_commands():
 
 
 # Get System query
+
 @db_session
 def get_command(name):
+
     # Get a system by ivue_name
     results = Commands.get(cmd=name)
+
     # format_results(results)
     return results

@@ -2,14 +2,7 @@
 # Piviteye Python Program for Raspberry Pi 3
 # Author:  Ben Calvert
 # Date:  May 27, 2016 v1.0.0
-# Revision:  June 21, 2016 v1.0.9
-# Revision:  August 6, 2016 v1.0.10 - enhancements
-# Revision:  August 7, 2016 v1.1.0 - added twclass.py dependency
-# Revision:  October 25, 2016 v1.3.0 - code cleanup and usb storage added
-# Revision:  February 25, 2017 v1.5.0 - added /etc/piviteye/twilio.conf JSON config file code
-# Revision:  February 25, 2017 v1.5.0 - added status command uptime message
-# Revision:  May 22, 2017 v1.7.0 - added daily status check that sends SMS update
-# Revision:  Sept 8, 2017 v2.1.0 - Redefined main() and added try/except blocks
+# Revision:  May 30, 2018 v1.2.1
 
 # This program takes SMS messages and initiates actions based on command Rx'd
 
@@ -17,14 +10,14 @@
 
 from gpiozero import LED, Button
 from time import sleep
-# from twilio.rest import TwilioRestClient
-import twclass
-import piviteyedb as Pdb
-import picamclass
-import programlogclass
 import subprocess
 import datetime
 import json
+from Classes import twclass
+from Classes import piviteyedb as Pdb
+from Classes import picamclass
+from Classes import programlogclass
+
 
 
 # Define Pi Command
@@ -57,31 +50,37 @@ def graceful_exit():
     tw.send_message('User Initiated Shutdown of System Complete.')
     raise SystemExit('User Initiated Exit')
 
+# Define Toggle Relay Function
 
 def toggle_relay():
-     # # GPIO Object Instances
-    open_led = LED(17)          #Green LED on GPIO port 17
-    open_led.off()
+    # # GPIO Object Instances
+    relay = LED(17)
+    relay.off()
     sleep(3)
-    open_led.on()
+    relay.on()
 
 # ----------------------Initialize------------------------ #
 
 def main():
 
-    # loop continuing to get messages every 30 seconds
+    # loop continuing to get messages every 15 seconds
     # If exit_code == True, call the graceful_exit() function
 
     while True:
+
         # Daily Program Status Notification Check
         date_string = datetime.datetime.now().strftime('%H:%M')
         if date_string == '20:30':
+            
             try:
                 tw.send_message(('The current Time is: {0}.  I am Still Alive!').format(date_string))
             except:
-                continue
+                logger.log_it('Unable to send message at 20:30 hours.')
+
             sleep(60)
+
         # get old message
+
         try:
             old_msg_id = tw.get_last_msg()
             old_msg = tw.get_last_msg_body().lower().strip()
@@ -102,7 +101,8 @@ def main():
             msg_num = messages[0].sid
             logger.log_it('New Rx Message ID -> ' + msg_num)
         except:
-            continue
+            logger.log_it('Unable to process message.')
+
         # check message status and pull recieved messages only
         if messages[0].status == 'received' and msg_num != old_msg_id:
 
@@ -116,14 +116,13 @@ def main():
                 tw.send_message(command.smsmsg)
                 if command.picmd != '':
                     pi_command(command.picmd)
-                else:
-                    pass
+
                 if command.subcall != "":
                     cmd_response = subprocess.call(command.subcall, shell=True)
                     if cmd_response == 0:
                         tw.send_message('Command Completed Successfully!')
                     else:
-                        tw.send_message('Command failed... :(')
+                        tw.send_message(('Command failed with code: {0}... :(').format(str(cmd_response)))
             else:
                 logger.log_it('Invalid Command Received.')
                 tw.send_message('Invalid Command Received.')
@@ -138,7 +137,7 @@ if __name__ == "__main__":
     data_file.close()
 
     # New TwilioSMS instance
-    tw = twclass.TwilioSMS(data['tw_account'], data['tw_token'], data['tw_receiver'], data['tw_sender'])
+    tw = twclass.TwilioSMS(data)
 
     # New Logger instance
     logger = programlogclass.ProgramLog()

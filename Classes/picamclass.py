@@ -4,7 +4,7 @@
 import datetime
 import subprocess
 from picamera import PiCamera
-import programlogclass as logger
+from Classes import programlogclass as logger
 
 
 class PiCam(object):
@@ -19,6 +19,7 @@ class PiCam(object):
         self.path = '/mnt/usb/video/'
 
     # Picture Method - takes snapshot and creates a file with date/time timestamp
+
     def take_picture(self, rotation):
         filename = self.path + self.time + '.jpg'
         logger.log_it(filename)
@@ -30,8 +31,11 @@ class PiCam(object):
         sleep(5)
 
     # Video Method - takes 60sec of video and creates a file with date/time timestamp
+
     def take_video(self, rotation):
+
         # Save the video to a temporary location /tmp
+
         path = '/tmp/'
         temp_filename = path + self.time + '.h264'
         video = PiCamera()
@@ -40,6 +44,7 @@ class PiCam(object):
         video.start_recording(temp_filename)
         sleep(60)
         video.stop_recording()
+
         # Convert video to something viewable (MP4)
         filename = self.path + self.time + '.mp4'
         conv_command = 'MP4Box -add {0} {1}'.format(temp_filename, filename)

@@ -18,11 +18,11 @@ class TwilioSMS(object):
     Initialize the class for all TwilioSMS activities
     '''
 
-    def __init__(self, tw_account, tw_token, tw_receiver, tw_sender):
-        self.tw_account = tw_account
-        self.tw_token = tw_token
-        self.tw_receiver = tw_receiver
-        self.tw_sender = tw_sender
+    def __init__(self, data):
+        self.tw_account = data['tw_account']
+        self.tw_token = data['tw_token']
+        self.tw_receiver = data['tw_receiver']
+        self.tw_sender = data['tw_sender']
         self.tw_client = TwilioRestClient(self.tw_account, self.tw_token)
 
     def get_last_msg(self):
@@ -32,7 +32,7 @@ class TwilioSMS(object):
 
         # Get last message sid number
         messages = client.messages.list(to=tx, from_=rx)
-        # for message in messages:
+
         return messages[0].sid
 
     def get_last_msg_body(self):
@@ -42,7 +42,7 @@ class TwilioSMS(object):
 
         # Get last message body
         messages = client.messages.list(to=tx, from_=rx)
-        # for message in messages:
+
         return messages[0].body
 
     def send_message(self, message):
