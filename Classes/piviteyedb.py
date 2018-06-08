@@ -35,6 +35,7 @@ db.generate_mapping(create_tables=True)
 
 # Set Commands
 
+
 @db_session
 def populate_db():
     c1 = Commands(id=1,

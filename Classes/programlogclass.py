@@ -4,6 +4,7 @@
 import datetime
 import logging
 
+
 class ProgramLog (object):
 
     '''

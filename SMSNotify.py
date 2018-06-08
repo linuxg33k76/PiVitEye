@@ -14,6 +14,7 @@ import glob
 import json
 from Classes import twclass
 
+
 def main(argv):
 
     # Setup message from arguments passed to command
@@ -25,7 +26,7 @@ def main(argv):
         for val in argv:
             msg = msg + ' ' + val
     else:
-        
+
         # treat this like a video message
         path = '/mnt/usb/video/'
         latest_video = max(glob.iglob(os.path.join(path, '*.[Aa][Vv][Ii]')), key=os.path.getctime)

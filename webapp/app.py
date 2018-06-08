@@ -20,11 +20,12 @@ def log():
     files = os.listdir(basedir)
     mdate = []
     for file in files:
-        mtime = os.path.getmtime(basedir+file)
+        mtime = os.path.getmtime(basedir + file)
         last_modified_date = datetime.datetime.fromtimestamp(mtime)
         mdate.append(last_modified_date)
 
     return render_template('log.html', files=files, directory=basedir, modified=mdate)
+
 
 @app.route('/speedtestlog')
 def speedtest_log():
@@ -32,11 +33,12 @@ def speedtest_log():
     files = os.listdir(basedir)
     mdate = []
     for file in files:
-        mtime = os.path.getmtime(basedir+file)
+        mtime = os.path.getmtime(basedir + file)
         last_modified_date = datetime.datetime.fromtimestamp(mtime)
         mdate.append(last_modified_date)
 
     return render_template('speedtestlog.html', files=files, directory=basedir, modified=mdate)
+
 
 @app.route('/videos')
 def video():
@@ -90,6 +92,7 @@ def pcap_clear():
     msg = 'User initiated DELETION of PCAP files is complete!'
     return render_template('output.html', msg=msg)
 
+
 @app.route('/speedtest/start', methods=['POST'])
 def speedtest_start():
     cmd = os.popen('sudo echo "Current Date: $(date)" >> /mnt/usb/bandwidth/speedtest.log && sudo speedtest-cli --simple >> /mnt/usb/bandwidth/speedtest.log')
@@ -98,6 +101,7 @@ def speedtest_start():
     msg = 'Complete! See Speedtest Log for details.'
     print(msg)
     return render_template('output.html', msg=msg)
+
 
 @app.route('/speedtest/entries/<lines>', methods=['POST'])
 def speedtest_entries(lines):
@@ -108,6 +112,7 @@ def speedtest_entries(lines):
     # Remove the last '\n' from array
     msg_array.pop()
     return render_template('logoutput.html', msg=msg_array, lines=lines)
+
 
 @app.route('/motion/start', methods=['POST'])
 def motion_start():

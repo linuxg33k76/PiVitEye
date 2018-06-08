@@ -18,9 +18,8 @@ from Classes import piviteyedb as Pdb
 from Classes import picamclass
 from Classes import programlogclass
 
-
-
 # Define Pi Command
+
 
 def pi_command(command):
     if command == "halt":
@@ -44,6 +43,7 @@ def pi_command(command):
 
 # Define Quit Function
 
+
 def graceful_exit():
     logger.log_warn('User Initiated Exit')
     logger.log_it('Gracefully Exiting Program.')
@@ -51,6 +51,7 @@ def graceful_exit():
     raise SystemExit('User Initiated Exit')
 
 # Define Toggle Relay Function
+
 
 def toggle_relay():
     # # GPIO Object Instances
@@ -60,6 +61,7 @@ def toggle_relay():
     relay.on()
 
 # ----------------------Initialize------------------------ #
+
 
 def main():
 
@@ -71,7 +73,7 @@ def main():
         # Daily Program Status Notification Check
         date_string = datetime.datetime.now().strftime('%H:%M')
         if date_string == '20:30':
-            
+
             try:
                 tw.send_message(('The current Time is: {0}.  I am Still Alive!').format(date_string))
             except:
