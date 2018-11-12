@@ -38,10 +38,7 @@ def main(argv):
     data_file.close()
 
     #  New TwilioSMS instance
-    tw = twclass.TwilioSMS(data['tw_account'],
-                           data['tw_token'],
-                           data['tw_receiver'],
-                           data['tw_sender'])
+    tw = twclass.TwilioSMS(data)
 
     # Call send_message method
     tw.send_message(msg)
