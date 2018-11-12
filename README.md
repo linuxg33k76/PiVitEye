@@ -19,12 +19,14 @@ Installation:
 1.  I installed to /opt/piviteye
 2.  Make sure you have python3 and the all necessary pip packages installed
 3.  Add /etc/piviteye directory and include a JSON fomatted text file as shown below (replace CAPS text with correct data)
-    - {
+     ``` 
+     {
         "tw_account":"ACCOUNT NUMBER",
         "tw_token":"TWILIO TOKEN",
         "tw_receiver":"YOUR SMS PHONE NUMBER",
         "tw_sender":"TWILIO SMS NUMBER"
-        }
+     }
+     ```
 4.  Make symbolic links for piviteye/webapp/static for short cuts to /mnt/usb/video and /mnt/usb/pcap
     - ln -s /mnt/usb/video piviteye/webapp/static/video
     - ln -s /mnt/usb/pcap piviteye/webapp/static/pcap
