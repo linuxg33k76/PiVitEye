@@ -151,5 +151,6 @@ if __name__ == "__main__":
     logger.log_it('Starting Program...')
     tw.send_message('Piviteye Program Initalized.')
     start_time = datetime.datetime.now()
+
     # Call Main()
     main()
