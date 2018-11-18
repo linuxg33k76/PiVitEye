@@ -101,7 +101,7 @@ def main():
 
             # store last message's sid number (ID number)
             msg_num = messages[0].sid
-            logger.log_it('New Rx Message ID -> ' + msg_num)
+            logger.log_it('Rx Message ID -> ' + msg_num)
         except:
             logger.log_it('Unable to process message.')
 
