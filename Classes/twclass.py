@@ -7,7 +7,7 @@
 
 # Import class files
 
-from twilio.rest import TwilioRestClient
+from twilio.rest import Client
 
 
 # --------------Class Definitions------------------#
@@ -23,7 +23,7 @@ class TwilioSMS(object):
         self.tw_token = data['tw_token']
         self.tw_receiver = data['tw_receiver']
         self.tw_sender = data['tw_sender']
-        self.tw_client = TwilioRestClient(self.tw_account, self.tw_token)
+        self.tw_client = Client(self.tw_account, self.tw_token)
 
     def get_last_msg(self):
         rx = self.tw_receiver
