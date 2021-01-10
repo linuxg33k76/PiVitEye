@@ -55,7 +55,7 @@ def graceful_exit():
 
 def toggle_relay():
     # # GPIO Object Instances
-    relay = LED(17)
+    relay = LED(14)
     relay.off()
     sleep(3)
     relay.on()
