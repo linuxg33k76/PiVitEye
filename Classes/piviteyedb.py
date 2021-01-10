@@ -41,22 +41,22 @@ def populate_db():
     c1 = Commands(id=1,
                   cmd='list',
                   logmsg='Sending the Available Commands List.',
-                  smsmsg='Executed - list command. Valid Commands: close, open, restart, record, picam, pivideo, halt, shutdown, disarm, arm, mute, unmute, volmax, volmin, volmid, voltest, status, uptime, update, tshark, speed and list.',
+                  smsmsg='Executed - list command. Valid Commands: relay1 <seconds>, relay2 <seconds>, restart, record, picam, pivideo, halt, shutdown, disarm, arm, mute, unmute, volmax, volmin, volmid, voltest, status, uptime, update, tshark, speed and list.',
                   picmd='',
                   subcall='')
 
     c2 = Commands(id=2,
-                  cmd='close',
-                  logmsg='Closing Garage Door',
-                  smsmsg='Executed - close command.',
-                  picmd='garage_door',
+                  cmd='relay1',
+                  logmsg='Relay #1 Called',
+                  smsmsg='Executed - relay1_toggle',
+                  picmd='relay1_toggle',
                   subcall='')
 
     c3 = Commands(id=3,
-                  cmd='open',
-                  logmsg='Opening Garage Door',
-                  smsmsg='Executed - open command.',
-                  picmd='garage_door',
+                  cmd='relay2',
+                  logmsg='Relay #2 Called',
+                  smsmsg='Executed - relay2_toggle',
+                  picmd='relay2_toggle',
                   subcall='')
 
     c4 = Commands(id=4,

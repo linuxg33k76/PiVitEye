@@ -8,7 +8,8 @@
 
 # Import class files
 
-from gpiozero import LED, Button
+# from gpiozero import LED, Button
+import RPi.GPIO as GPIO
 from time import sleep
 import subprocess
 import datetime
@@ -21,14 +22,26 @@ from Classes import programlogclass
 # Define Pi Command
 
 
-def pi_command(command):
+def pi_command(command, vars):
     if command == "halt":
         graceful_exit()
     elif command == "pivideo":
         v = picamclass.PiCam()
         v.take_video(0)
-    elif command == "garage_door":
-        toggle_relay()
+    elif command == "relay1_toggle":
+        # Toggle GPIO Point 14 check integer version of vars for user provided delay
+        if vars != '' and int(vars) > 0:
+            activateRelay(14, int(vars))
+        else:
+            # Default 2 seconds
+            activateRelay(14, 2)
+    elif command == "relay2_toggle":
+        # Toggle GPIO Point 15 check integer version of vars for user provided delay
+        if vars != '' and int(vars) > 0:
+            activateRelay(15, int(vars))
+        else:
+            # Default 2 seconds
+            activateRelay(15, 2)
     elif command == "status":
         # Use the global program start time to calculate
         prog_uptime = datetime.datetime.now() - start_time
@@ -53,12 +66,20 @@ def graceful_exit():
 # Define Toggle Relay Function
 
 
-def toggle_relay():
-    # # GPIO Object Instances
-    relay = LED(17)
-    relay.off()
-    sleep(3)
-    relay.on()
+# def toggle_relay():
+#     # # GPIO Object Instances
+#     relay = LED(14)
+#     relay.off()
+#     sleep(3)
+#     relay.on()
+
+def activateRelay(pin, seconds=3):
+    
+    # Activate designated Relay for # Seconds
+
+    GPIO.output(pin, False)
+    sleep(seconds)
+    GPIO.output(pin, True)
 
 # ----------------------Initialize------------------------ #
 
@@ -97,7 +118,10 @@ def main():
             messages = tw.get_messages()
 
             # remove whitespaces from begining or end of the last message's body
-            msg = messages[0].body.lower().strip()
+            msg = messages[0].body.lower().split(" ")[0]
+            msg_vars = messages[0].body.split(" ")[1]
+            # print(msg, msg_vars) # For testing purposes
+ 
 
             # store last message's sid number (ID number)
             msg_num = messages[0].sid
@@ -115,9 +139,12 @@ def main():
             command = Pdb.get_command(msg)
             if command != []:
                 logger.log_it(command.logmsg)
-                tw.send_message(command.smsmsg)
+                if msg_vars !='' and 'relay' in msg:
+                    tw.send_message((command.smsmsg + ' with variable {0} seconds').format(msg_vars))
+                else:
+                    tw.send_message(command.smsmsg)
                 if command.picmd != '':
-                    pi_command(command.picmd)
+                    pi_command(command.picmd, msg_vars)
 
                 if command.subcall != "":
                     cmd_response = subprocess.call(command.subcall, shell=True)
@@ -151,6 +178,14 @@ if __name__ == "__main__":
     logger.log_it('Starting Program...')
     tw.send_message('Piviteye Program Initalized.')
     start_time = datetime.datetime.now()
+
+    # Setup the GPIO using pin 14 & 15 and default to True
+    GPIO.setwarnings(False)
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(14, GPIO.OUT)
+    GPIO.output(14, True)
+    GPIO.setup(15, GPIO.OUT)
+    GPIO.output(15, True)
 
     # Call Main()
     main()
