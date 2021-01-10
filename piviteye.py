@@ -117,16 +117,21 @@ def main():
             logger.log_it('Waiting for New Command...')
             messages = tw.get_messages()
 
-            # remove whitespaces from begining or end of the last message's body
-            msg = messages[0].body.lower().split(" ")[0]
-            msg_vars = messages[0].body.split(" ")[1]
-            # print(msg, msg_vars) # For testing purposes
- 
+            # Store message parts as an array; separate by "whitespace"
+            msg_array = messages[0].body.lower().split(" ")
+
+            # Store parts of message for use in command execution
+            msg = msg_array[0]
+            if len(msg_array) == 2:
+                msg_vars = msg_array[1]
+            else:
+                msg_vars = '' 
 
             # store last message's sid number (ID number)
             msg_num = messages[0].sid
             logger.log_it('Rx Message ID -> ' + msg_num)
-        except:
+
+        except(e):
             logger.log_it('Unable to process message.')
 
         # check message status and pull recieved messages only
@@ -136,23 +141,34 @@ def main():
             logger.log_it('Command was --> ' + msg)
 
             # look up command in database (piviteye.db)
+            
             command = Pdb.get_command(msg)
-            if command != []:
+            
+            # Check for valid commands
+            if command is not None:
                 logger.log_it(command.logmsg)
+
+                # Execute command
+                if command.picmd != '':
+                    pi_command(command.picmd, msg_vars)
+
+                # Send Message on command; check for variable in relay commands
                 if msg_vars !='' and 'relay' in msg:
                     tw.send_message((command.smsmsg + ' with variable {0} seconds').format(msg_vars))
                 else:
                     tw.send_message(command.smsmsg)
-                if command.picmd != '':
-                    pi_command(command.picmd, msg_vars)
-
+                
+                # Linux Subsystem Calls
                 if command.subcall != "":
                     cmd_response = subprocess.call(command.subcall, shell=True)
                     if cmd_response == 0:
                         tw.send_message('Command Completed Successfully!')
                     else:
                         tw.send_message(('Command failed with code: {0}... :(').format(str(cmd_response)))
+
             else:
+
+                # Failure option for bad commands (commands not in Database)
                 logger.log_it('Invalid Command Received.')
                 tw.send_message('Invalid Command Received.')
 
