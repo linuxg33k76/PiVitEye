@@ -6,6 +6,6 @@ with open('/etc/piviteye/openweather.conf') as apikeyfile:
 
 apikeyfile.close()
 
-x = OWC.OpenWeatherAPI(apikey, '59501')
+x = OWC.OpenWeatherAPI(apikey, '59529')
 results = x.get_weather_data()
 print(results)

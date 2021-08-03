@@ -7,13 +7,14 @@
 
 import requests
 import json
+import pprint
 
 
 # --------------Class Definitions------------------#
 
 class OpenWeatherAPI(object):
     
-    def __init__(self, apikey, zipcode, imperial='imperial'):
+    def __init__(self, apikey, zipcode='59327', imperial='imperial'):
         self.apikey = apikey
         self.zipcode = zipcode
         self.units = imperial
@@ -68,7 +69,8 @@ class OpenWeatherAPI(object):
 
         # check results
 
-        if result['cod'] != 404:
+        if result['cod'] != 404 and result['message'] != 'city not found':
+            pprint.pprint(result)
             data = result['main']
             current_temp = data['temp']
             current_pressure = data['pressure']
@@ -85,4 +87,4 @@ class OpenWeatherAPI(object):
             forecast = (('For {0}, it is currently {1} with a temperature of {2}F and winds out of {3} at {4} mph.  Barometric pressure is at {5} millibars and humity of {6}%.').format(location, weather_desc, current_temp, wind_dir, wind_speed, current_pressure, current_humidity))
             return(forecast)
         else:
-            return('Weather for zipcode {self.zip} not found.')
+            return(('Error:  Weather for zipcode {0} not found.').format(self.zipcode))
