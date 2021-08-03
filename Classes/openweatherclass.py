@@ -7,7 +7,6 @@
 
 import requests
 import json
-import pprint
 
 
 # --------------Class Definitions------------------#
@@ -69,8 +68,7 @@ class OpenWeatherAPI(object):
 
         # check results
 
-        if result['cod'] != 404 and result['message'] != 'city not found':
-            pprint.pprint(result)
+        if result['cod'] != 404 and 'message' not in result:
             data = result['main']
             current_temp = data['temp']
             current_pressure = data['pressure']
