@@ -176,7 +176,7 @@ def populate_db():
     c22 = Commands(id=23,
                    cmd='weather',
                    logmsg='User Requested Weather Information.',
-                   smsmsg='',
+                   smsmsg='Weather Info',
                    picmd='weather_info',
                    subcall='')
     commit()

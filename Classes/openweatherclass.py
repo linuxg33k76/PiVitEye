@@ -82,7 +82,7 @@ class OpenWeatherAPI(object):
             # Convert Degrees to Human Direction
             wind_dir = self.get_wind_direction(wind_direction)
 
-            forecast = (('For {0}, it is currently {1} with a temperature of {2}F and winds out of {3} degrees at {4} mph.  Barometric pressure is at {5} millibars and humity of {6}%.').format(location, weather_desc, current_temp, wind_dir, wind_speed, current_pressure, current_humidity))
+            forecast = (('For {0}, it is currently {1} with a temperature of {2}F and winds out of {3} at {4} mph.  Barometric pressure is at {5} millibars and humity of {6}%.').format(location, weather_desc, current_temp, wind_dir, wind_speed, current_pressure, current_humidity))
             return(forecast)
         else:
             return('Weather for zipcode {self.zip} not found.')
