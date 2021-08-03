@@ -15,9 +15,23 @@ import subprocess
 import datetime
 import json
 from Classes import twclass
-from Classes import piviteyedb as Pdb
+from Classes import piviteyedb as PDB
 from Classes import picamclass
 from Classes import programlogclass
+from Classes import openweatherclass as OWC
+
+
+# Get Weather function
+
+def get_weather(zipcode):
+    # Get weather info for Zipcode from OpenWeatherAPI
+    with open('/etc/piviteye/openweather.conf') as apikeyfile:
+        apikey = json.load(apikeyfile)['openweatherapikey']
+        # apikey = key['openweatherapikey']
+    w = OWC.OpenWeatherAPI(apikey, zipcode)
+    results = w.get_weather_data()
+    return results
+
 
 # Define Pi Command
 
@@ -51,8 +65,13 @@ def pi_command(command, vars):
         # Get command output and convert byte code to utf-8
         message = subprocess.check_output('uptime')
         tw.send_message(str(message, 'utf-8'))
+    elif command == 'weather_info':
+        # Get weather by calling weather class
+        message = get_weather(vars)
+        tw.send_message(message)
     else:
         return
+
 
 # Define Quit Function
 
@@ -142,7 +161,7 @@ def main():
 
             # look up command in database (piviteye.db)
             
-            command = Pdb.get_command(msg)
+            command = PDB.get_command(msg)
             
             # Check for valid commands
             if command is not None:
@@ -155,6 +174,8 @@ def main():
                 # Send Message on command; check for variable in relay commands
                 if msg_vars !='' and 'relay' in msg:
                     tw.send_message((command.smsmsg + ' with variable {0} seconds').format(msg_vars))
+                elif msg_vars !='' and 'weather' in msg:
+                    tw.send_message((command.smsmsg + ' with variable {0}').format(msg_vars))
                 else:
                     tw.send_message(command.smsmsg)
                 
@@ -188,7 +209,7 @@ if __name__ == "__main__":
     logger = programlogclass.ProgramLog()
 
     # New piviteye database instance
-    Pdb.populate_db()
+    PDB.populate_db()
 
     # Initialization SMS message
     logger.log_it('Starting Program...')

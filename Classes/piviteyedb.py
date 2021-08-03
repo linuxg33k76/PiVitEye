@@ -41,7 +41,7 @@ def populate_db():
     c1 = Commands(id=1,
                   cmd='list',
                   logmsg='Sending the Available Commands List.',
-                  smsmsg='Executed - list command. Valid Commands: relay1 <seconds>, relay2 <seconds>, restart, record, picam, pivideo, halt, shutdown, disarm, arm, mute, unmute, volmax, volmin, volmid, voltest, status, uptime, update, tshark, speed and list.',
+                  smsmsg='Executed - list command. Valid Commands: relay1 <seconds>, relay2 <seconds>, restart, record, picam, pivideo, halt, shutdown, disarm, arm, mute, unmute, volmax, volmin, volmid, voltest, status, uptime, update, tshark, speed, weather <zipcode>, and list.',
                   picmd='',
                   subcall='')
 
@@ -173,6 +173,12 @@ def populate_db():
                    smsmsg='Running Broadband Speedtest...',
                    picmd='',
                    subcall='python3 /opt/piviteye/SMSNotify.py $(speedtest-cli --simple)')
+    c22 = Commands(id=23,
+                   cmd='weather',
+                   logmsg='User Requested Weather Information.',
+                   smsmsg='',
+                   picmd='weather_info',
+                   subcall='')
     commit()
 
 
