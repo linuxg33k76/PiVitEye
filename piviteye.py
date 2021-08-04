@@ -8,12 +8,14 @@
 
 # Import class files
 
-# from gpiozero import LED, Button
 import RPi.GPIO as GPIO
 from time import sleep
 import subprocess
 import datetime
 import json
+
+# Import personal library files from Classes folder
+
 from Classes import twclass
 from Classes import piviteyedb as PDB
 from Classes import picamclass
@@ -23,18 +25,18 @@ from Classes import openweatherclass as OWC
 
 # Get Weather function
 
-def get_weather(zipcode):
-    # Get weather info for Zipcode from OpenWeatherAPI
+
+def get_weather(location):
+    # Get weather info for <city,state> from OpenWeatherAPI
     with open('/etc/piviteye/openweather.conf') as apikeyfile:
         apikey = json.load(apikeyfile)['openweatherapikey']
         # apikey = key['openweatherapikey']
-    w = OWC.OpenWeatherAPI(apikey, zipcode)
+    w = OWC.OpenWeatherAPI(apikey, location)
     results = w.get_weather_data()
     return results
 
 
-# Define Pi Command
-
+# Define Pi Command function; this handles all actions of the program.
 
 def pi_command(command, vars):
     if command == "halt":
@@ -115,7 +117,8 @@ def main():
         if date_string == '20:30':
 
             try:
-                tw.send_message(('The current Time is: {0}.  I am Still Alive!').format(date_string))
+                weather_report = get_weather('Forsyth,MT')
+                tw.send_message(('The current Time is: {0}. {1}').format(date_string,weather_report))
             except:
                 logger.log_it('Unable to send message at 20:30 hours.')
 
@@ -175,7 +178,7 @@ def main():
                 if msg_vars !='' and 'relay' in msg:
                     tw.send_message((command.smsmsg + ' with variable {0} seconds').format(msg_vars))
                 elif msg_vars !='' and 'weather' in msg:
-                    tw.send_message((command.smsmsg + ' with variable {0}').format(msg_vars))
+                    tw.send_message((command.smsmsg + ' with location: {0}').format(msg_vars))
                 else:
                     tw.send_message(command.smsmsg)
                 

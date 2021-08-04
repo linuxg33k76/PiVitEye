@@ -7,18 +7,24 @@
 
 import requests
 import json
+# import pprint
 
 
 # --------------Class Definitions------------------#
 
 class OpenWeatherAPI(object):
-    
-    def __init__(self, apikey, zipcode='59327', imperial='imperial'):
+    '''
+    OpenWeatherAPI Class:
+    Inputs:  apikey - provided with user account on openweathermap.org / location - city,state OR zipcode / units - default is 'imperial'
+    '''
+
+
+    def __init__(self, apikey, location='59327', units='imperial'):
         self.apikey = apikey
-        self.zipcode = zipcode
-        self.units = imperial
+        self.location = location
+        self.units = units
         baseurl = 'https://api.openweathermap.org/data/2.5/weather?'
-        self.complete_url = baseurl + 'appid=' + self.apikey + '&q=' + self.zipcode + '&units=imperial'
+        self.complete_url = baseurl + 'appid=' + self.apikey + '&q=' + self.location + ',US' + '&units=' + self.units
 
 
     def get_wind_direction(self, degrees):
@@ -65,6 +71,7 @@ class OpenWeatherAPI(object):
     def get_weather_data(self):
         response = requests.get(self.complete_url)
         result = response.json()
+        # pprint.pprint(result)
 
         # check results
 
@@ -82,7 +89,7 @@ class OpenWeatherAPI(object):
             # Convert Degrees to Human Direction
             wind_dir = self.get_wind_direction(wind_direction)
 
-            forecast = (('For {0}, it is currently {1} with a temperature of {2}F and winds out of {3} at {4} mph.  Barometric pressure is at {5} millibars and humity of {6}%.').format(location, weather_desc, current_temp, wind_dir, wind_speed, current_pressure, current_humidity))
+            forecast = (('For {0}, it is currently: {1} with a temperature of: {2}F and winds out of: {3} at {4} MPH.  Barometric pressure is: {5} hPa and humidity is: {6}%.').format(location, weather_desc, current_temp, wind_dir, wind_speed, current_pressure, current_humidity))
             return(forecast)
         else:
-            return(('Error:  Weather for zipcode {0} not found.').format(self.zipcode))
+            return(('Error:  Weather for Location: {0} not found.').format(self.location))

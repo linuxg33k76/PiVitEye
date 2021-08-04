@@ -7,15 +7,22 @@ with open('/etc/piviteye/openweather.conf') as apikeyfile:
 apikeyfile.close()
 
 try:
-    x = OWC.OpenWeatherAPI(apikey, '59529')
+    x = OWC.OpenWeatherAPI(apikey, 'Billings,MT')
     results = x.get_weather_data()
     print(results)
 except():
     print('issue in 1st test')
 
 try:
-    y = OWC.OpenWeatherAPI(apikey, '59327')
+    y = OWC.OpenWeatherAPI(apikey, 'Forsyth,MT')
     results = y.get_weather_data()
+    print(results)
+except():
+    print('issue in 2nd test')
+
+try:
+    z = OWC.OpenWeatherAPI(apikey, '59501')
+    results = z.get_weather_data()
     print(results)
 except():
     print('issue in 2nd test')
