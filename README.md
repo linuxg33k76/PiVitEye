@@ -28,11 +28,16 @@ Installation:
         "tw_sender":"TWILIO SMS NUMBER"
      }
      ```
-4.  Add a file named
+4.  Add a file named openweather.conf to /etc/piviteye/ with the following format:
+     ```
+     {
+         "openweatherapikey":"<API KEY GOES HERE>"
+     }
+     ```
 5.  Make symbolic links for piviteye/webapp/static for short cuts to /mnt/usb/video and /mnt/usb/pcap
     - ln -s /mnt/usb/video piviteye/webapp/static/video
     - ln -s /mnt/usb/pcap piviteye/webapp/static/pcap
-5.  Add following entries to /etc/crontab using vim or nano (tweak as desired)
+6.  Add following entries to /etc/crontab using vim or nano (tweak as desired)
     
     @reboot 	root	sleep 60; python3 /opt/piviteye/piviteye.py
     @reboot 	root	sleep 60; python3 /opt/piviteye/webapp/app.py
