@@ -8,19 +8,35 @@
 
 # Import class files
 
-# from gpiozero import LED, Button
 import RPi.GPIO as GPIO
 from time import sleep
 import subprocess
 import datetime
 import json
+
+# Import personal library files from Classes folder
+
 from Classes import twclass
-from Classes import piviteyedb as Pdb
+from Classes import piviteyedb as PDB
 from Classes import picamclass
 from Classes import programlogclass
+from Classes import openweatherclass as OWC
 
-# Define Pi Command
 
+# Get Weather function
+
+
+def get_weather(location):
+    # Get weather info for <city,state> from OpenWeatherAPI
+    with open('/etc/piviteye/openweather.conf') as apikeyfile:
+        apikey = json.load(apikeyfile)['openweatherapikey']
+        # apikey = key['openweatherapikey']
+    w = OWC.OpenWeatherAPI(apikey, location)
+    results = w.get_weather_data()
+    return results
+
+
+# Define Pi Command function; this handles all actions of the program.
 
 def pi_command(command, vars):
     if command == "halt":
@@ -51,8 +67,13 @@ def pi_command(command, vars):
         # Get command output and convert byte code to utf-8
         message = subprocess.check_output('uptime')
         tw.send_message(str(message, 'utf-8'))
+    elif command == 'weather_info':
+        # Get weather by calling weather class
+        message = get_weather(vars)
+        tw.send_message(message)
     else:
         return
+
 
 # Define Quit Function
 
@@ -65,13 +86,6 @@ def graceful_exit():
 
 # Define Toggle Relay Function
 
-
-# def toggle_relay():
-#     # # GPIO Object Instances
-#     relay = LED(14)
-#     relay.off()
-#     sleep(3)
-#     relay.on()
 
 def activateRelay(pin, seconds=3):
     
@@ -96,7 +110,9 @@ def main():
         if date_string == '20:30':
 
             try:
-                tw.send_message(('The current Time is: {0}.  I am Still Alive!').format(date_string))
+                weather_report = get_weather('Forsyth,MT')
+                tw.send_message(('The current Time is: {0}.  {1}').format(date_string,weather_report))
+                logger.log_it(('At 8:30 PM: {0}').format(weather_report))
             except:
                 logger.log_it('Unable to send message at 20:30 hours.')
 
@@ -142,7 +158,7 @@ def main():
 
             # look up command in database (piviteye.db)
             
-            command = Pdb.get_command(msg)
+            command = PDB.get_command(msg)
             
             # Check for valid commands
             if command is not None:
@@ -155,6 +171,8 @@ def main():
                 # Send Message on command; check for variable in relay commands
                 if msg_vars !='' and 'relay' in msg:
                     tw.send_message((command.smsmsg + ' with variable {0} seconds').format(msg_vars))
+                elif msg_vars !='' and 'weather' in msg:
+                    tw.send_message((command.smsmsg + ' with location: {0}').format(msg_vars))
                 else:
                     tw.send_message(command.smsmsg)
                 
@@ -188,7 +206,7 @@ if __name__ == "__main__":
     logger = programlogclass.ProgramLog()
 
     # New piviteye database instance
-    Pdb.populate_db()
+    PDB.populate_db()
 
     # Initialization SMS message
     logger.log_it('Starting Program...')
