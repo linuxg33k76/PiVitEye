@@ -15,16 +15,20 @@ import json
 class OpenWeatherAPI(object):
     '''
     OpenWeatherAPI Class:
-    Inputs:  apikey - provided with user account on openweathermap.org / location - city,state OR zipcode / units - default is 'imperial'
+    Inputs:  apikey - provided with user account on openweathermap.org
+             location - city,state OR zipcode
+             units - weather units - weather units (default is 'imperial')
+             country - two character country code (defaul is US)
     '''
 
 
-    def __init__(self, apikey, location='59327', units='imperial'):
+    def __init__(self, apikey, location='59327', units='imperial', country='US'):
         self.apikey = apikey
         self.location = location
+        self.country = country
         self.units = units
         baseurl = 'https://api.openweathermap.org/data/2.5/weather?'
-        self.complete_url = baseurl + 'appid=' + self.apikey + '&q=' + self.location + ',US' + '&units=' + self.units
+        self.complete_url = baseurl + 'appid=' + self.apikey + '&q=' + self.location + ',' + self.country + '&units=' + self.units
 
 
     def get_wind_direction(self, degrees):
@@ -89,7 +93,7 @@ class OpenWeatherAPI(object):
             # Convert Degrees to Human Direction
             wind_dir = self.get_wind_direction(wind_direction)
 
-            forecast = (('For {0}, it is currently: {1} with a temperature of: {2}F and winds out of: {3} at {4} MPH.  Barometric pressure is: {5} hPa and humidity is: {6}%.').format(location, weather_desc, current_temp, wind_dir, wind_speed, current_pressure, current_humidity))
+            forecast = (('In {0}, it is currently: {1} with a temperature of: {2}F and winds out of: {3} at {4} MPH.  Barometric pressure is: {5} hPa and humidity is: {6}%.').format(location, weather_desc, current_temp, wind_dir, wind_speed, current_pressure, current_humidity))
             return(forecast)
         else:
             return(('Error:  Weather for Location: {0} not found.').format(self.location))

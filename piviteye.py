@@ -87,13 +87,6 @@ def graceful_exit():
 # Define Toggle Relay Function
 
 
-# def toggle_relay():
-#     # # GPIO Object Instances
-#     relay = LED(14)
-#     relay.off()
-#     sleep(3)
-#     relay.on()
-
 def activateRelay(pin, seconds=3):
     
     # Activate designated Relay for # Seconds
@@ -118,7 +111,8 @@ def main():
 
             try:
                 weather_report = get_weather('Forsyth,MT')
-                tw.send_message(('The current Time is: {0}. {1}').format(date_string,weather_report))
+                tw.send_message(('The current Time is: {0}.  {1}').format(date_string,weather_report))
+                logger.log_it(('At 8:30 PM: {0}').format(weather_report))
             except:
                 logger.log_it('Unable to send message at 20:30 hours.')
 

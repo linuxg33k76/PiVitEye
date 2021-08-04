@@ -21,3 +21,4 @@ All files can live where you place the contents of this repo.  Just make sure of
     usermod -a -G audio <user> - you can find permission information online.
 3.  If things don't work, be sure to verify paths and permissions!
 4.  Symbolic Link to external storage on raspberry pi in the ../webapp/static/ directory
+5.  Configuration files are stored in /etc/piviteye/ directory.  e.g.) openweather.conf  twilio.conf

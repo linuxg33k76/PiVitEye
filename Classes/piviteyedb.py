@@ -41,7 +41,7 @@ def populate_db():
     c1 = Commands(id=1,
                   cmd='list',
                   logmsg='Sending the Available Commands List.',
-                  smsmsg='Executed - list command. Valid Commands: relay1 <seconds>, relay2 <seconds>, restart, record, picam, pivideo, halt, shutdown, disarm, arm, mute, unmute, volmax, volmin, volmid, voltest, status, uptime, update, tshark, speed, weather <city,state,country>, and list.',
+                  smsmsg='Executed - list command. Valid Commands: relay1 <seconds>, relay2 <seconds>, restart, record, picam, pivideo, halt, shutdown, disarm, arm, mute, unmute, volmax, volmin, volmid, voltest, status, uptime, update, tshark, speed, weather <city,state> OR <zipcode>, and list.',
                   picmd='',
                   subcall='')
 
